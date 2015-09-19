@@ -92,7 +92,7 @@ SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 # corpus dir
 SINA_STORE = '~/corpus/sina'
 SOHU_STORE = '~/corpus/sohu'
-163_STORE = '~/corpus/163'
+WY163_STORE = '~/corpus/163'
 TECENT_STORE = '~/corpus/tecent'
 TY_STORE = '~/corpus/tianya'
 TB_STORE = '~/corpus/tieba'

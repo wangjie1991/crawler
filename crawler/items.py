@@ -14,8 +14,8 @@ class TextItem(scrapy.Item):
 
 
 class TextLoader(ItemLoader):
-##    path_in = MapCompose(strip_text)
-##    path_out = TakeFirst()
+    path_in = MapCompose(strip_text)
+    path_out = TakeFirst()
 
     text_in = MapCompose(strip_text)
     text_out = Join('\n')

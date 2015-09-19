@@ -9,7 +9,7 @@ class TextPipeline(object):
         b_path = 'path' in item and item['path'] != ''
         b_text = 'text' in item and item['text'] != ''
         
-        if b_url and b_text:
+        if b_path and b_text:
             path = item['path']
             text = item['text']
 
@@ -17,7 +17,7 @@ class TextPipeline(object):
             if not os.path.exists(d):
                 os.makedirs(d)
             
-            with open(path, 'w') as fout:
+            with open(path, 'a') as fout:
                 fout.write(text.encode('utf-8'))
         
         return item
