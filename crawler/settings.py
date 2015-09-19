@@ -62,11 +62,7 @@ NEWSPIDER_MODULE = 'crawler.spiders'
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'crawler.pipelines.SomePipeline': 300,
-'tianya.pipelines.TianyaPipeline': 300,
-'tieba.pipelines.TiebaPipeline': 300,
-'txweibo.pipelines.TxweiboPipeline': 300,
-'sina_weibo.pipelines.SinaWeiboPipeline': 300,
+    'crawler.pipelines.TextPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -93,10 +89,13 @@ DEPTH_PRIORITY = 1
 SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
 SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 
-# Corpus root dir
-NEWS_STORE = '/home/wangjie/Documents/163'
-STORE = '/home/wangjie/Documents/tianya'
-STORE = '/home/wangjie/Documents/tieba'
-STORE = '/home/wangjie/Documents/txweibo'
-STORE = '/home/wangjie/Documents/sina_weibo'
+# corpus dir
+SINA_STORE = '~/corpus/sina'
+SOHU_STORE = '~/corpus/sohu'
+163_STORE = '~/corpus/163'
+TECENT_STORE = '~/corpus/tecent'
+TY_STORE = '~/corpus/tianya'
+TB_STORE = '~/corpus/tieba'
+TCWB_STORE = '~/corpus/tecent_weibo'
+SNWB_STORE = '~/corpus/sina_weibo'
 
