@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import re
 import scrapy
 from scrapy.contrib.loader import ItemLoader
 from scrapy.contrib.loader.processor import TakeFirst, MapCompose, Join
@@ -8,8 +7,6 @@ from scrapy.contrib.loader.processor import TakeFirst, MapCompose, Join
 def strip_text(s):
     return s.strip()
 
-def strip_text(s):
-    return re.sub(r'\s*', '', s)
 
 class TextItem(scrapy.Item):
     path = scrapy.Field()
@@ -17,8 +14,8 @@ class TextItem(scrapy.Item):
 
 
 class TextLoader(ItemLoader):
-    path_in = MapCompose(strip_text)
-    path_out = TakeFirst()
+##    path_in = MapCompose(strip_text)
+##    path_out = TakeFirst()
 
     text_in = MapCompose(strip_text)
     text_out = Join('\n')
