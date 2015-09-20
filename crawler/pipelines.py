@@ -17,7 +17,7 @@ class TextPipeline(object):
             if not os.path.exists(d):
                 os.makedirs(d)
             
-            with open(path, 'a') as fout:
+            with open(path, 'w') as fout:
                 fout.write(text.encode('utf-8'))
         
         return item
