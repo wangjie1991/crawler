@@ -10,6 +10,11 @@ class PathExtractor():
     def baidumusic(self, url):
         # http://music.baidu.com/tag/%E7%94%B5%E8%A7%86%E5%89%A7?start=200&size=25&third_type=0
         url = urllib.unquote(url)
+        # write url list
+        #with open('/home/wangjie/url.txt', 'a') as f:
+        #    u = '%s\n%s\n\n' % (url, path)
+        #    #f.write(u.encode('utf-8'))
+        #    f.write(u)
         url = url.lstrip('http://music.baidu.com/tag/')
         
         p = ''
