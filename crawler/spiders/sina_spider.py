@@ -3,7 +3,7 @@
 import scrapy
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors import LinkExtractor
-from crawler.spiders.pathextractors import PathExtractor
+from crawler.spiders.pathextractor import PathExtractor
 from crawler.spiders.linkfilter import LinkFilter
 from crawler.items import TextItem, TextLoader
 
@@ -22,10 +22,10 @@ class SinaSpider(CrawlSpider):
              #Rule(LinkExtractor(allow=(r'http://news.sina.com.cn/.*?/')))]
     
     def parse_item(self, response):
-        loader = NewsLoader(item=NewsItem(), response=response)
+        loader = TextLoader(item=TextItem(), response=response)
 
-        path = PathExtractor.parse_sina(response.url)
-        loader.add_value('path', path)
+#        path = PathExtractor.parse_sina(response.url)
+        loader.add_value('path', '')
 
         # title compatible of new and old page
         # loader.add_xpath('title', '//h1[contains(@id, "artibodyTitle")]//text()')
