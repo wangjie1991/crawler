@@ -35,7 +35,7 @@ class BaiduMusicSpider(CrawlSpider):
         text = ''
 
         items = response.xpath('//div[contains(@class, "song-item clearfix ")]')
-        for item in enumerate(items):
+        for item in items:
             songs = item.xpath('.//span[contains(@class, "song-title")]/a//text()').extract()
             singers = item.xpath('.//span[contains(@class, "singer")]//text()').extract()
             albums = item.xpath('.//span[contains(@class, "album-title")]/a//text()').extract()
