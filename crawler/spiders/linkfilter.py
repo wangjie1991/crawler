@@ -2,6 +2,7 @@
 
 import os
 import re
+from scrapy import log
 from pybloomfilter import BloomFilter
 
 
@@ -31,6 +32,39 @@ class LinkFilter():
     def html_filter(self, links):
         new_links = []
         for link in links:
+            #log.msg('This is a link : %s' % link, level=log.WARNING)
             if not self.bf_html.add(link.url):
                 new_links.append(link)
         return new_links
+
+
+class BaiduMusicFilter(LinkFilter):
+
+    def url_filter(self, links):
+        mdf_links = []
+        for link in links:
+            link = self.modify_url(link)
+            if link:
+                mdf_links.append(link)
+
+        return self.html_filter(mdf_links)
+
+    def modify_url(self, link):
+        url = link.url
+        tag = '%09%20%20%20%20%09/tag/'
+        idx1 = url.find('?tag')
+        idx2 = url.find(tag)
+
+        if (-1 != idx1):
+            return None
+ 
+        if (-1 != idx2):
+            head = url[:idx2]
+            tail = url[idx2+len(tag):]
+            url = head + tail
+            url = url.rstrip('%0A++++')
+            link.url = url
+
+        return link
+
+

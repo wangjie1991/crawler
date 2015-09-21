@@ -4,7 +4,7 @@ import scrapy
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors import LinkExtractor
 from crawler.spiders.pathextractor import PathExtractor
-from crawler.spiders.linkfilter import LinkFilter
+from crawler.spiders.linkfilter import BaiduMusicFilter
 from crawler.items import TextItem, TextLoader
 
 
@@ -13,11 +13,11 @@ class BaiduMusicSpider(CrawlSpider):
     allowed_domains = ['music.baidu.com']
     start_urls = ['http://music.baidu.com/tag']
     pathextractor = PathExtractor()
-#    linkfilter = LinkFilter('baidumusic')
+    linkfilter = BaiduMusicFilter('baidumusic')
     
     rules = [
-                Rule(LinkExtractor(allow=(r'http://music.baidu.com/tag/.*')), callback='parse_item', follow=True)
-                #Rule(LinkExtractor(allow=(r'http://news.sina.com.cn/.*?s?html')), callback='parse_item', follow=True, process_links=linkfilter.html_filter)
+#Rule(LinkExtractor(allow=(r'http://music.baidu.com/tag/.*')), callback='parse_item', follow=True)
+                Rule(LinkExtractor(allow=(r'http://music.baidu.com/tag/.*')), callback='parse_item', follow=True, process_links=linkfilter.url_filter)
             ]
     
     def parse_item(self, response):
