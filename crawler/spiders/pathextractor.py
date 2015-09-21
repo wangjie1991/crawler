@@ -26,7 +26,7 @@ class PathExtractor():
             f = '0'
         else:
             p = url[:idx]
-            fl = re.findall('start=([0-9]*?)', url)
+            fl = re.findall('start=([0-9]*)', url)
             if fl:
                 f = fl[0]
             else:

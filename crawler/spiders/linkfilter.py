@@ -52,10 +52,11 @@ class BaiduMusicFilter(LinkFilter):
     def modify_url(self, link):
         url = link.url
         tag = '%09%20%20%20%20%09/tag/'
+        idx0 = url.find('\t\t')
         idx1 = url.find('?tag')
         idx2 = url.find(tag)
 
-        if (-1 != idx1):
+        if (-1 != idx0) or (-1 != idx1):
             return None
  
         if (-1 != idx2):
