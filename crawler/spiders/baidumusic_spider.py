@@ -26,7 +26,36 @@ class BaiduMusicSpider(CrawlSpider):
         path = self.pathextractor.baidumusic(response.url)
         loader.add_value('path', path)
 
-        loader.add_xpath('text', '//div[contains(@class, "song-item clearfix ")]//a//text()')
+        text = self.getText(response)
+        loader.add_value('text', text)
         
         return loader.load_item()
+
+    def getText(self, response):
+        text = ''
+
+        items = response.xpath('//div[contains(@class, "song-item clearfix ")]')
+        for item in enumerate(items):
+            songs = item.xpath('.//span[contains(@class, "song-title")]/a//text()').extract()
+            singers = item.xpath('.//span[contains(@class, "singer")]//text()').extract()
+            albums = item.xpath('.//span[contains(@class, "album-title")]/a//text()').extract()
+
+            if not songs:
+                continue
+            song = songs[0]
+
+            singer = ''
+            if singers:
+                for s in singers:
+                    singer = singer + s
+            singer = singer.strip()
+
+            album = ''
+            if albums:
+                album = albums[0]
+
+            t = '<item>\n\t<song>%s</song>\n\t<singer>%s</singer>\n\t<album>%s</album>\n</item>\n' % (song, singer, album)
+            text = text + t
+
+        return text
 

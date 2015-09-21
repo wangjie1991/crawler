@@ -19,3 +19,5 @@ class TextLoader(ItemLoader):
 
     text_in = MapCompose(strip_text)
     text_out = Join('\n')
+
+

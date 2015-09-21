@@ -21,3 +21,4 @@ class TextPipeline(object):
                 fout.write(text.encode('utf-8'))
         
         return item
+

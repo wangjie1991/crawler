@@ -50,9 +50,12 @@ class BaiduMusicFilter(LinkFilter):
         return self.html_filter(mdf_links)
 
     def modify_url(self, link):
+        'http://music.baidu.com/tag/%09%20%20%20%20%09/tag/%E4%B8%AD%E5%9B%BD%E5%A5%BD%E5%A3%B0%E9%9F%B3?size=25&start=150&third_type=0%0A++++'
         url = link.url
         tag = '%09%20%20%20%20%09/tag/'
+        'http://music.baidu.com/tag/\t\t%E4%B8%AD%E5%9B%BD%E5%A5%BD%E5%A3%B0%E9%9F%B3'
         idx0 = url.find('\t\t')
+        'http://music.baidu.com/tag/%E4%B8%AD%E5%9B%BD%E5%A5%BD%E5%A3%B0%E9%9F%B3?tag%E4%B8%AD%E5%9B%BD%E5%A5%BD%E5%A3%B0%E9%9F%B3'
         idx1 = url.find('?tag')
         idx2 = url.find(tag)
 
