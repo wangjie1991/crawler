@@ -5,7 +5,12 @@ from scrapy.contrib.loader import ItemLoader
 from scrapy.contrib.loader.processor import TakeFirst, MapCompose, Join
 
 def strip_text(s):
-    return s.strip()
+    t = s.strip()
+    # last char is } or ; maybe javascript code
+    if (1 <= len(t)) and (('}' == t[-1]) or (';' == t[-1])):
+        return ''
+    else:
+        return t
 
 
 class TextItem(scrapy.Item):

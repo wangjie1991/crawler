@@ -72,3 +72,17 @@ class BaiduMusicFilter(LinkFilter):
         return link
 
 
+class Wy163Filter(LinkFilter):
+
+    def url_filter(self, links):
+        new_links = []
+        for link in links:
+            url = link.url
+            if (-1 != url.find('keyword')) or (-1 != url.find('photoview')) or (-1 != url.find('special')):
+                continue
+            else:
+                new_links.append(link)
+
+        return self.html_filter(new_links)
+
+

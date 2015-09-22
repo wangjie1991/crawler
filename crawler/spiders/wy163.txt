@@ -1,6 +1,5 @@
 http://news.163.com/
 http://war.163.com/
-http://view.163.com/
 http://sports.163.com/
 http://ent.163.com/
 http://money.163.com/
@@ -12,25 +11,41 @@ http://jiu.163.com/
 http://mobile.163.com/
 http://digi.163.com/
 http://hea.163.com/
-http://digi.163.com/pc/
 http://auto.163.com/
-http://travel.163.com/
 http://jiankang.163.com/
 http://house.163.com/
-http://home.163.com/
+http://discovery.163.com/
+http://edu.163.com/
+http://baby.163.com/
+http://gongyi.163.com/
+<h1 id="h1title" class="ep-h1">媒体盘点习近平出访专机上有哪些人</h1>
+<p class="ep-summary">
+<div id="endText" class="end-text">
+
+
+http://view.163.com/
+<h3 style="margin-left: 0px;">聂日明：官方办专车,谨防市场越位</h3>
+<div class="feed-text"><p>
+
+http://travel.163.com/
+<div class="post_description">
+<div class="post_text" id="endText">
+
+http://house.163.com/
+http://bj.house.163.com/
+http://sh.house.163.com/
+
 http://blog.163.com/?fromNavigation
+
+http://home.163.com/
 http://vhouse.163.com/
 http://yuedu.163.com/yc/
 http://play.163.com/
-http://discovery.163.com/
 http://bbs.163.com/
 http://pp.163.com/
 http://foxue.163.com/
-http://edu.163.com/
-http://baby.163.com/
 http://men.163.com/
 http://hot.163.com/
-http://gongyi.163.com/
 
 
 

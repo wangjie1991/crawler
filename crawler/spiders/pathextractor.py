@@ -7,6 +7,13 @@ from crawler import settings
 
 class PathExtractor():
 
+    def host(self, store, url):
+        path = url.lstrip('http://')
+        path = path[:path.rfind('.')]
+        path = '%s/%s.txt' % (store, path)
+
+        return path
+
     def baidumusic(self, url):
         # http://music.baidu.com/tag/%E7%94%B5%E8%A7%86%E5%89%A7?start=200&size=25&third_type=0
         # write url list
