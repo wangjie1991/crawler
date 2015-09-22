@@ -46,7 +46,7 @@ class Wy163Spider(CrawlSpider):
         path = self.pathextractor.host(settings.WY163_STORE, response.url)
         loader.add_value('path', path)
         
-        loader.add_xpath('text', '//h1/text()')
+        loader.add_xpath('title', '//h1/text()')
         loader.add_xpath('text', '//p[contains(@class, "ep-summary")]/text()')
         loader.add_xpath('text', '//div[contains(@id, "endText")]/p//text()')
         

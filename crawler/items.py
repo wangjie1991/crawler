@@ -15,14 +15,18 @@ def strip_text(s):
 
 class TextItem(scrapy.Item):
     path = scrapy.Field()
+    title = scrapy.Field()
     text = scrapy.Field()
 
 
 class TextLoader(ItemLoader):
     #path_in = MapCompose(strip_text)
     path_out = TakeFirst()
+    
+    title_in = MapCompose(strip_text)
+    title_out = TakeFirst()
 
     text_in = MapCompose(strip_text)
-    text_out = Join('\n')
+    text_out = Join('')
 
 
