@@ -1,81 +1,122 @@
-http://news.sina.com.cn/guide/	导航
+http://news.sina.com.cn/guide/
+roll.xxx.sina.com.cn/xxx/index.shtml
+http://chuangye.sina.com.cn/
+http://digi.sina.com.cn/
+http://mobile.sina.com.cn/
+http://shiqu.sina.com.cn/
+http://run.sina.com.cn/
+http://yue.sina.com.cn/
+http://kid.baby.sina.com.cn/
 
-http://news.sina.com.cn/	新闻
-<h1 id="artibodyTitle" >XXX</h1>
-<div id="artibody">
-<span class="img_descr">XXX</span>
-<p>XXX</p>
-</div>
 
+
+
+
+http://[a-z]*.sina.com.cn/
+http://news.sina.com.cn/
+http://finance.sina.com.cn/
+http://tech.sina.com.cn/
+http://sports.sina.com.cn/
+http://ent.sina.com.cn/
+http://zhuanlan.sina.com.cn/
+http://history.sina.com.cn/
+http://fashion.sina.com.cn/
+http://edu.sina.com.cn/
+http://baby.sina.com.cn/
+http://jiaju.sina.com.cn/
+http://book.sina.com.cn/
+http://health.sina.com.cn/
+http://collection.sina.com.cn/
+http://lottery.sina.com.cn/
+http://gongyi.sina.com.cn/
+
+http://city.sina.com.cn/
+http://sh.sina.com.cn/
+http://cq.sina.com.cn/
+http://tj.sina.com.cn/
+http://gd.sina.com.cn/
+http://henan.sina.com.cn/
+http://sc.sina.com.cn/
+http://fj.sina.com.cn/
+http://mn.sina.com.cn/
+http://zj.sina.com.cn/
+http://hb.sina.com.cn/
+http://hunan.sina.com.cn/
+http://sx.sina.com.cn/
+http://ln.sina.com.cn/
+http://hlj.sina.com.cn/
+http://ah.sina.com.cn/
+http://jiangsu.sina.com.cn/
+http://hebei.sina.com.cn/
+http://jx.sina.com.cn/
+http://jl.sina.com.cn/
+http://shanxi.sina.com.cn/
+http://hainan.sina.com.cn/
+http://sd.sina.com.cn/
+http://gx.sina.com.cn/
+http://nb.sina.com.cn/
+
+
+<h1>XXX</h1>
+<div id="article"> <p></p>      2003-2007   http://sports.sina.com.cn/doha2006/o/2006-12-17/10202647510.shtml
+<div id="artibody"> <p></p>     2007-
+<p class="article-keywords">
 <div class="article-keywords">
-<a></a>
-</div>
+<div class="art-keywords">  <a></a>
 
-/china/wold/society/option/media/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+allow with same rule:
 mil.news/sky.news/weather.news
-news.video/photo/
+http://cul.history.sina.com.cn/
+http://news.jiaju.sina.com.cn
+
+deny:
+http://slide.*.sina.com.cn/*    picture
+words: video, photo, blog, bss, club, 
+fashion: try, match, home, 
+
+
+allow with other rule:
+http://astro.sina.com.cn/
+http://auto.sina.com.cn/    <div id="articleContent"> <p></p>   news/newcar/review/jishu/guide/sales/service/motuoche/
+http://auto.sina.com.cn/zl/ <div id="artibody"> <p></p>
+http://um.auto.sina.com.cn/
+http://finance.sina.com.cn/sf/
+
+http://blog.sina.com.cn/
+http://guba.sina.com.cn/
+http://bss.sina.com.cn/
+http://house.sina.com.cn/
+http://esf.sina.com.cn/
+http://book.sina.com.cn/z/.*
+http://zhongyi.sina.com/
+http://games.sina.com.cn/
+http://fo.sina.com.cn/
+http://english.sina.com/
+
+
+
+http://video.sina.com.cn/
+http://photo.sina.com.cn/
+http://weather.sina.com.cn/
+http://aipai.sina.com.cn/
+http://news.video.sina.com.cn/
+http://sports.video.sina.com.cn/
 
 
 
 
 
-
-
-http://news.sina.com.cn/society/	社会
-http://finance.sina.com.cn/	财经
-http://finance.sina.com.cn/stock/	股票
-http://finance.sina.com.cn/fund/	基金
-http://tech.sina.com.cn/	科技
-http://mobile.sina.com.cn/	手机
-http://tech.sina.com.cn/discovery/	探索
-http://sports.sina.com.cn/	体育
-http://sports.sina.com.cn/nba/	NBA
-http://sports.sina.com.cn/csl/	中超
-http://ent.sina.com.cn/	娱乐
-http://ent.sina.com.cn/star/	明星
-http://astro.sina.com.cn/	星座
-http://auto.sina.com.cn/	汽车
-http://dealer.auto.sina.com.cn/price/	报价
-http://data.auto.sina.com.cn/	买车
-http://blog.sina.com.cn/	博客
-http://zhuanlan.sina.com.cn/	专栏
-http://weather.sina.com.cn/	天气
-http://video.sina.com.cn/	视频
-http://ent.sina.com.cn/zongyi/	综艺
-http://baby.sina.com.cn/	育儿
-http://house.sina.com.cn/	房产
-http://esf.sina.com.cn/	二手房
-http://jiaju.sina.com.cn/	家居
-http://book.sina.com.cn/	读书
-http://history.sina.com.cn/	历史
-http://photo.sina.com.cn/   图片
-http://edu.sina.com.cn/	教育
-http://health.sina.com.cn/	健康
-http://zhongyi.sina.com/	中医
-http://fashion.sina.com.cn/	时尚
-http://eladies.sina.com.cn/	女性
-http://collection.sina.com.cn/	收藏
-http://city.sina.com.cn/	城市
-http://www.51xiancheng.com/	鲜城
-http://sh.sina.com.cn/	上海
-http://travel.sina.com.cn/	旅游
-http://sky.news.sina.com.cn/	航空
-http://um.auto.sina.com.cn/ 车致
-http://bbs.sina.com.cn/	论坛
-http://edu.sina.com.cn/a/	出国
-http://show.sina.com.cn/	SHOW
-http://games.sina.com.cn/	游戏
-http://qipai.sina.com.cn/	棋牌
-http://game.weibo.com/	页游
-http://fo.sina.com.cn/	佛学
-http://golf.sina.com.cn/	高尔夫
-http://lottery.sina.com.cn/	彩票
-http://www.97973.com/	手游
-http://search.sina.com.cn/	搜索
-http://iask.sina.com.cn/	爱问
-http://weibo.com/	微博
-http://finance.sina.com.cn/sf/	法院
-http://help.sina.com.cn/index.php	客服
-http://mail.sina.com.cn/	邮箱
-http://gongyi.sina.com.cn/	公益
-http://english.sina.com/	English

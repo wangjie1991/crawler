@@ -7,7 +7,11 @@ from scrapy.contrib.loader.processor import TakeFirst, MapCompose, Join
 def strip_text(s):
     t = s.strip()
     # last char is } or ; maybe javascript code
-    if (1 <= len(t)) and (('}' == t[-1]) or (';' == t[-1])):
+    if (1 <= len(t)):
+        if ('}' == t[-1]) or \
+           ('{' == t[-1]) or \
+           (';' == t[-1]) or \
+           ('//' == t[0:2]):
         return ''
     else:
         return t

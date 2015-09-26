@@ -10,16 +10,73 @@ from crawler.items import TextItem, TextLoader
 
 class SinaSpider(CrawlSpider):
     name = 'sina'
-    allowed_domains = ['sina.com.cn']
-    start_urls = ['http://news.sina.com.cn']
     linkfilter = LinkFilter('sina')
+    start_urls = ['http://sina.com.cn']
+
+    allowed_domains = [
+                        'gongyi.sina.com.cn'
+                        'lottery.sina.com.cn'
+                        'collection.sina.com.cn'
+                        'health.sina.com.cn'
+                        'book.sina.com.cn'
+                        'jiaju.sina.com.cn'
+                        'baby.sina.com.cn', 
+                        'edu.sina.com.cn', 
+                        'fashion.sina.com.cn', 
+                        'history.sina.com.cn', 
+                        'zhuanlan.sina.com.cn', 
+                        'yue.sina.com.cn'
+                        'ent.sina.com.cn', 
+                        'run.sina.com.cn'
+                        'sports.sina.com.cn', 
+                        'shiqu.sina.com.cn'
+                        'mobile.sina.com.cn'
+                        'digi.sina.com.cn'
+                        'chuangye.sina.com.cn'
+                        'tech.sina.com.cn', 
+                        'finance.sina.com.cn', 
+                        'news.sina.com.cn' 
+                      ]
+
+    deny_pages = [
+                    r'http://book.sina.com.cn/z/.*', 
+                    r'http://fashion\.sina\.com\.cn/match/.*', 
+                    r'http://fashion\.sina\.com\.cn/home/.*', 
+                    r'http://finance\.sina\.com\.cn/sf/.*', 
+                    r'.*try.*', 
+                    r'.*blog.*', 
+                    r'.*bss.*', 
+                    r'.*club.*', 
+                    r'.*photo.*', 
+                    r'.*video.*'
+                 ]
+
+    allow_index = [
+                    r'http://news.jiaju.sina.com.cn/.*'
+                    r'http://kid\.baby\.sina\.com\.cn/'
+                    r'http://cul\.history\.sina\.com.\cn/.*/$', 
+                    r'http://weather\.news\.sina\.com.\cn/.*/$', 
+                    r'http://sky\.news\.sina\.com.\cn/.*/$', 
+                    r'http://mil\.news\.sina\.com.\cn/.*/$', 
+                    r'http://[a-z]*\.sina\.com\.cn/.*/$', 
+                    r'http://roll\.[a-z]\.sina\.com.\cn/.*'
+                  ]
+
+    allow_shtml = [
+                    r'http://cul\.history\.sina\.com.\cn/.*\.s?html$', 
+                    r'http://weather\.news\.sina\.com.\cn/.*\.s?html$', 
+                    r'http://sky\.news\.sina\.com.\cn/.*\.s?html$', 
+                    r'http://mil\.news\.sina\.com.\cn/.*\.s?html$', 
+                    r'http://[a-z]*\.sina\.com\.cn/.*\.s?html$'
+                 ]
     
-    rules = [# 规则1匹配文本页面，一定做URL去重
-             Rule(LinkExtractor(allow=(r'http://news.sina.com.cn/.*?s?html')), 
-                  callback='parse_item', follow=True, process_links=linkfilter.html_filter),
-             # 规则2匹配新闻索引页面，不提取文本。
-             Rule(LinkExtractor(allow=(r'http://news.sina.com.cn/.*?/')), process_links=linkfilter.index_filter)]
-             #Rule(LinkExtractor(allow=(r'http://news.sina.com.cn/.*?/')))]
+    rules = [
+                Rule(LinkExtractor(allow=allow_index, deny=deny_pages), 
+                     process_links=linkfilter.index_filter),
+                Rule(LinkExtractor(allow=allow_shtml, deny=deny_pages), 
+                     callback='parse_item', follow=True, 
+                     process_links=linkfilter.html_filter)
+            ]
     
     def parse_item(self, response):
         loader = TextLoader(item=TextItem(), response=response)
@@ -27,17 +84,9 @@ class SinaSpider(CrawlSpider):
 #        path = PathExtractor.parse_sina(response.url)
         loader.add_value('path', '')
 
-        # title compatible of new and old page
-        # loader.add_xpath('title', '//h1[contains(@id, "artibodyTitle")]//text()')
-        h1 = response.xpath('//h1/text()')
-        if h1:
-            loader.add_xpath('text', '//h1/text()')
-        else:
-            loader.add_xpath('text', '//th[contains(@class, "f24")]/text()')
+        loader.add_xpath('text', '//h1/text()')
         
-        # text compatible of new and old page
         t1 = response.xpath('//div[contains(@id, "artibody")]//p//text()')
-        t2 = response.xpath('//div[contains(@id, "article")]//p/text()')
         if t1:
             # <p>中会有<strong>修饰文本，也为了最大匹配artibody，保证<p>匹配成功
             loader.add_xpath('text', '//div[contains(@id, "artibody")]//p//text()')
@@ -45,8 +94,7 @@ class SinaSpider(CrawlSpider):
             # <div id=article>内一些<p>会在里层，而且这里匹配失败会全匹配<p>，容易引入js杂料，所以这里需要匹配最大化
             # 早期网页中一般没有将重要文本放入<p>里层，里层反而有js等。
             loader.add_xpath('text', '//div[contains(@id, "article")]//p/text()')
-        else:
-            # 旧的网页对<p>敏感度高，一般不会里层包含文本。如果深层获取，还会引入一些js杂料
-            loader.add_xpath('text', '//p/text()')
         
         return loader.load_item()
+
+
