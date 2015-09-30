@@ -11,7 +11,12 @@ class PathExtractor():
         path = url.lstrip('http://')
         path = path[:path.rfind('.')]
         path = '%s/%s.txt' % (store, path)
+        return path
 
+    def weibo(self, store, url):
+        path = url.lstrip('http://weibo.cn/')
+        path = path[:path.rfind('?')]
+        path = '%s/%s.txt' % (store, path)
         return path
 
     def baidumusic(self, url):
@@ -42,4 +47,6 @@ class PathExtractor():
         
         path = '%s/%s/%s.txt' % (settings.BDYY_STORE, p, f)
         return path
+
+
 

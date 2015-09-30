@@ -8,7 +8,7 @@ import rsa
 import scrapy
 
 
-class Login():
+class SnwbLogin():
 
     def __init__(self, username, pwd, start_urls):
         self.username = username
@@ -71,3 +71,5 @@ class Login():
     def startCrawl(self, response):
         for url in self.start_urls:
             yield scrapy.Request(url)
+
+

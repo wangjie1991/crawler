@@ -3,101 +3,104 @@
 import scrapy
 import re
 import logging
-from sina_weibo.spiders.filters import SinaWeiboBloomFilter
-from sina_weibo.spiders.login import Login
-from sina_weibo.items import SinaWeiboItem, SinaWeiboLoader
+from crawler.spiders.pathextractor import PathExtractor
+from crawler.spiders.linkfilter import LinkFilter
+from crawler.spiders.snwblogin import SnwbLogin
+from crawler.items import WeiboItem, WeiboLoader
+from crawler import settings
 
 
-class SinaWeiboSpider(scrapy.Spider):
-    name = 'sina_weibo'
+class SnwbSpider(scrapy.Spider):
+    name = 'snwb'
     allowed_domains = ['weibo.cn', 'login.sina.com.cn']
     start_urls = ['http://weibo.cn/kaifulee']
-
-    re_text1 = re.compile(r'WB_text([\s\S]*?)div')
-    re_text2 = re.compile(r'<([\s\S]*?)>')
-    re_text3 = re.compile(r'\s+')
-    re_link1 = re.compile(r'href=\\?"(.*?)\\?"')
-    re_link2 = re.compile(r'http://weibo.com/[\w*\-?]*$')
-
-    bf = SinaWeiboBloomFilter('sina_weibo')
-    login = Login('mononogy@sina.cn', 'amethyst', start_urls)
+    
+    pathextractor = PathExtractor()
+#linkfilter = Wy163Filter('wy163')
+    re_http = re.compile(r'http://[\w\./]*?')
+    login = SnwbLogin('mononogy@sina.cn', 'amethyst', start_urls)
 
     def start_requests(self):
         yield self.login.prelogin()
 
     def parse(self, response):
-        body = response.body.decode('utf-8')
-        text = self.getText(body)
+        loader = WeiboLoader(item=WeiboItem(), response=response)
+        path = self.pathextractor.weibo(settings.SNWB_STORE, response.url)
+        loader.add_value('path', path)
+        self.load_text(response, loader)
+        item = loader.load_item()
+        yield item
 
-        loader = SinaWeiboLoader(item=SinaWeiboItem(), response=response)
-        loader.add_value('url', response.url)
-        loader.add_xpath('title', '//title/text()')
-        loader.add_value('text', text)
-        yield loader.load_item()
-
-        if text:
-            link_list = self.getLink(response)
-            for link in link_list:
-                yield link
-
-
-    def getText(self, body):
-        WB_text = self.re_text1.findall(body)
-        text_list = []
-
-        for text in WB_text:
-            text = text[text.find('>')+1 : text.rfind('<')]
-            text = self.re_text2.sub(' ', text)
-            rc_list = ['@', '#', '\\r', '\\n', '\\t','\\/', '\\']
-            for rc in rc_list:
-                text = text.replace(rc, ' ')
-            text = self.re_text3.sub(' ', text)
-            text_list.append(text)
-
-        return text_list
-
-
-    def getLink(self, response):
-        url_set = set()
-        req_list = []
-
-        # find other user link in current page
-        page_url_list = self.re_link1.findall(response.body.decode('utf-8'))
-        for page_url in page_url_list:
-            #去除转义字符
-            page_url = page_url.replace('\\', '')
-            #相对路径
-            if page_url[0] == '/':
-                page_url = 'http://weibo.com' + page_url
-            if self.re_link2.match(page_url):
-                url_set.add(page_url)
-
-        # get next webpage from current page
-        url = response.url
-        index1 = url.find('page=')
-        # http://weibo.com/kaifulee
-        if self.re_link2.match(url):
-            #url = url + '?is_search=0&visible=0&is_tag=0&profile_ftype=1&page=2#feedtop'
-            url = url + '?page=2'
-            url_set.add(url)
-        # http://weibo.com/kaifulee?is_search=0&visible=0&is_tag=0&profile_ftype=1&page=5#feedtop
-        elif index1 != -1:
-            index2 = url.find('#', index1)
-            if index2 == -1:
-                page_id = 1 + int(url[index1+5:])
-                url = url[:index1+5] + str(page_id)
-            else:
-                page_id = 1 + int(url[index1+5:index2])
-                url = url[:index1+5] + str(page_id) + url[index2:]
-            url_set.add(url)
+        next_page = self.load_next(response)
+        if next_page and ('text' in item):
+            req = scrapy.Request(next_page, callback=self.parse)
+            yield req;
         else:
-            pass
+            follow = self.load_follow(response)
+            req = scrapy.Request(follow, callback=self.parse_follow)
+            yield follow
 
-        # bloom filter
-        url_set = self.bf.filter_html(url_set)
+    def load_text(self, response, loader):
+        text = ''
+        sep = ''
+        ctt_text = ''
+        dtt_text = ''
+        dc_list = response.xpath('//div[contains(@class, "c")]')
 
-        for next_url in url_set:
-            #if re.match(r'http://weibo.com/kaifulee', next_url):
-            req_list.append(scrapy.Request(next_url, callback=self.parse))
+        for dc in dc_list:
+            dd_list = dc.xpath('./div')
 
-        return req_list
+            ctt_list = dd_list[0].xpath('./span[contains(@class, "ctt")]//text()').extract()
+            if ctt_list:
+                ctt_text = sep.join(ctt_list)
+                ctt_text = ctt_text.replace('@', '')
+                ctt_text = ctt_text.replace('//', '')
+                ctt_text = self.re_http('', ctt_text)
+                loader.add_value('text', ctt_text)
+
+            dtt_list = dd_list[-1].xpath('.//text()').extract()
+            if dtt_list:
+                dtt_text = sep.join(dtt_list)
+                idxl_str = '转发理由:'
+                idxr_str = '赞['
+                idxl = dtt_text.find(idxl_str)
+                idxr = dtt_text.rfind(idxr_str)
+                if (idxl != -1) and (idxr != -1):
+                    dtt_text = dtt_text[ idxl + len(idxl_str) : idxr ]
+                    dtt_text = dtt_text.replace('@', '')
+                    dtt_text = dtt_text.replace('//', '')
+                    dtt_text = self.re_http('', dtt_text)
+                    loader.add_value('text', dtt_text)
+
+    def load_next(self, response):
+        links = response.xpath('//div[contains(@class, "pa")]//a/@href').extract()
+        texts = response.xpath('//div[contains(@class, "pa")]//text()').extract()
+        if (not links) or (not texts):
+            return None
+
+        link = links[0]
+        text = texts[0]
+        if (text != '下页'):
+            return None
+
+        link = 'http://weibo.cn' + link
+        return link
+
+    def load_follow(self, response):
+        link = response.xpath('//div[contains(@class, "tip2")]/a/@href').extract()[0]
+        link = 'http://weibo.cn' + link
+        return link
+
+    def parse_follow(self, response):
+        follows = response.xpath('//table')
+        for follow in follows:
+            link = follow.xpath('//a/@href').extract()[0]
+            req = scrapy.Request(link, callback=self.parse)
+            yield req
+
+        next_follow = self.load_next(response)
+        if next_follow:
+            req = scrapy.Request(next_follow, callback=self.parse_follow)
+            yield req
+
+

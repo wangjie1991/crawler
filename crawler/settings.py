@@ -63,6 +63,7 @@ NEWSPIDER_MODULE = 'crawler.spiders'
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'crawler.pipelines.TextPipeline': 300,
+#    'crawler.pipelines.WeiboPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -85,9 +86,9 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE='scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 # BFO order
-DEPTH_PRIORITY = 1
-SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
-SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
+#DEPTH_PRIORITY = 1
+#SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
+#SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 
 # corpus dir
 KW_STORE = '/home/wangjie/Documents/keyword'
