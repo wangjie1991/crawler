@@ -11,16 +11,16 @@ from crawler import settings
 
 class Sbkk8Spider(CrawlSpider):
     name = 'sbkk8'
-    start_urls = ['http://www.sbkk8.cn/mingzhu/']
+    start_urls = ['http://www.sbkk8.cn/']
     allowed_domains = ['www.sbkk8.cn']
 
     linkfilter = LinkFilter('sbkk8')
     pathextractor = PathExtractor()
 
     rules = [
-                Rule(LinkExtractor(allow=r'http://www\.sbkk8\.cn/mingzhu/.*/$'), 
+                Rule(LinkExtractor(allow=r'http://www\.sbkk8\.cn/.*/$'), 
                      process_links=linkfilter.index_filter),
-                Rule(LinkExtractor(allow=r'http://www\.sbkk8\.cn/mingzhu/.*\.html$'), 
+                Rule(LinkExtractor(allow=r'http://www\.sbkk8\.cn/.*\.s?html?$'), 
                      callback='parse_item', follow=True, 
                      process_links=linkfilter.html_filter)
             ]
@@ -41,7 +41,7 @@ class Sbkk8Spider(CrawlSpider):
 
         item = loader.load_item()
         
-        if (item['text'] == ''):
+        if ('text' not in item) or (item['text'] == ''):
             with open('url.txt', 'a') as url_file:
                 url = response.url + '\n'
                 url_file.write(url.encode('utf-8'))
