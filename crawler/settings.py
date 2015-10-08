@@ -101,5 +101,5 @@ TB_STORE = '/home/wangjie/Documents/corpus/tieba'
 TCWB_STORE = '/home/wangjie/Documents/corpus/tecent_weibo'
 SNWB_STORE = '/home/wangjie/Documents/corpus/sina_weibo'
 BDYY_STORE = '/home/wangjie/Documents/corpus/baidu_music'
-
+SBKK8_STORE = '/home/wangjie/Documents/corpus/sbkk8'
 
