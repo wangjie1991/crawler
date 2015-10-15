@@ -44,7 +44,10 @@ class QQSpider(CrawlSpider):
                  ]
 
     allow_index = [
-                    r'http://.*?\.qq.com/.*'
+                    r'http://view\.news\.qq.com/.*',
+                    r'http://[a-z]*\.auto\.qq\.com/.*',
+                    r'http://[a-z]*\.house\.qq\.com/.*',
+                    r'http://[a-z]*\.qq.com/.*'
                   ]
 
     allow_a = [
