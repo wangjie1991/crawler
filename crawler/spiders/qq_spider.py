@@ -99,11 +99,11 @@ class QQSpider(CrawlSpider):
         path = self.pathextractor.host(settings.QQ_STORE, response.url)
         loader.add_value('path', path)
         loader.add_xpath('title', '//h1/text()')
-        loader.add_xpath('//div[contains(@class, "daoyu")]//div[contains(@class, "intr")]/text()')
-        loader.add_xpath('//div[contains(@id, "articleContent")]/h2/text()')
-        loader.add_xpath('//div[contains(@id, "articleContent")]/h3/text()')
-        loader.add_xpath('//div[contains(@id, "articleContent")]/p/text()')
-        loader.add_xpath('//div[contains(@class, "jieyu")]//text()')
+        loader.add_xpath('text', '//div[contains(@class, "daoyu")]//div[contains(@class, "intr")]/text()')
+        loader.add_xpath('text', '//div[contains(@id, "articleContent")]/h2/text()')
+        loader.add_xpath('text', '//div[contains(@id, "articleContent")]/h3/text()')
+        loader.add_xpath('text', '//div[contains(@id, "articleContent")]/p/text()')
+        loader.add_xpath('text', '//div[contains(@class, "jieyu")]//text()')
 
         return loader.load_item()
 
