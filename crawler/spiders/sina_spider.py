@@ -14,25 +14,25 @@ class SinaSpider(CrawlSpider):
     start_urls = ['http://sina.com.cn']
 
     allowed_domains = [
-                        'gongyi.sina.com.cn'
-                        'lottery.sina.com.cn'
-                        'collection.sina.com.cn'
-                        'health.sina.com.cn'
-                        'book.sina.com.cn'
-                        'jiaju.sina.com.cn'
+                        'gongyi.sina.com.cn',
+                        'lottery.sina.com.cn',
+                        'collection.sina.com.cn',
+                        'health.sina.com.cn',
+                        'book.sina.com.cn',
+                        'jiaju.sina.com.cn',
                         'baby.sina.com.cn', 
                         'edu.sina.com.cn', 
                         'fashion.sina.com.cn', 
                         'history.sina.com.cn', 
                         'zhuanlan.sina.com.cn', 
-                        'yue.sina.com.cn'
+                        'yue.sina.com.cn',
                         'ent.sina.com.cn', 
-                        'run.sina.com.cn'
+                        'run.sina.com.cn',
                         'sports.sina.com.cn', 
-                        'shiqu.sina.com.cn'
-                        'mobile.sina.com.cn'
-                        'digi.sina.com.cn'
-                        'chuangye.sina.com.cn'
+                        'shiqu.sina.com.cn',
+                        'mobile.sina.com.cn',
+                        'digi.sina.com.cn',
+                        'chuangye.sina.com.cn',
                         'tech.sina.com.cn', 
                         'finance.sina.com.cn', 
                         'news.sina.com.cn' 
@@ -52,8 +52,8 @@ class SinaSpider(CrawlSpider):
                  ]
 
     allow_index = [
-                    r'http://news.jiaju.sina.com.cn/.*'
-                    r'http://kid\.baby\.sina\.com\.cn/'
+                    r'http://news.jiaju.sina.com.cn/.*',
+                    r'http://kid\.baby\.sina\.com\.cn/',
                     r'http://cul\.history\.sina\.com.\cn/.*/$', 
                     r'http://weather\.news\.sina\.com.\cn/.*/$', 
                     r'http://sky\.news\.sina\.com.\cn/.*/$', 

@@ -1,0 +1,54 @@
+index:
+mil.qq.com/mil_index.htm
+history.news.qq.com
+thinker.qq.com
+roll.news.qq.com
+yue.qq.com
+
+
+
+
+domain:/a/
+<div id="Cnt-Main-Article-QQ">
+<P style="TEXT-INDENT: 2em">
+news.qq.com
+finance.qq.com
+stock.qq.com
+sport.qq.com
+ent.qq.com
+fashion.qq.com
+lady.qq.com
+health.qq.com
+tech.qq.com
+digi.tech.qq.com
+space.qq.com
+cul.qq.com
+gongyi.qq.com
+baby.qq.com
+
+
+auto.qq.com
+xxx.auto.qq.com
+house.qq.com
+xxx.house.qq.com
+
+#city.qq.com
+view.news.qq.com
+
+/original/
+<div class="intr"></div>
+
+
+
+deny:
+v.qq.com
+news.qq.com/newspedia/
+
+
+p class=titdd-Article
+TEXT-ALIGN: center
+TEXT-INDENT: 2em
+
+
+
+

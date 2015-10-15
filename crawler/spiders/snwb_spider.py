@@ -12,7 +12,7 @@ from crawler import settings
 
 class SnwbSpider(scrapy.Spider):
     name = 'snwb'
-    allowed_domains = ['weibo.cn', 'login.sina.com.cn']
+    allowed_domains = ['weibo.cn', 'login.sina.com.cn', 'weibo.com']
     start_urls = ['http://weibo.cn/kaifulee']
     
     pathextractor = PathExtractor()
