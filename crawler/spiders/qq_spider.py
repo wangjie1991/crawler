@@ -94,6 +94,15 @@ class QQSpider(CrawlSpider):
         if not ps:
             ps = response.xpath('//div[contains(@id, "Cnt-Main-Article-QQ")]/p')
 
+        # very old pages
+        if not ps:
+            loader.add_xpath('title', '//div[contains(id, "ArticleTit")]/text()')
+            loader.add_xpath('title', '//div[contains(id, "ArtTit")]/text()')
+            ps = response.xpath('//div[contains(@id, "ArticleCnt")]//p')
+            ps = response.xpath('//div[contains(@id, "ArtCnt")]//p')
+        if not ps:
+            ps = response.xpath('//p')
+
         for p in ps:
             if p.xpath('./script'):
                 continue
