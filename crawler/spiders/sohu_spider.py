@@ -17,6 +17,7 @@ class SohuSpider(CrawlSpider):
     linkfilter = LinkFilter('sohu')
     
     allowed_domains = [
+                        'roll.sohu.com',
                         'city.sohu.com',
                         'caipiao.sohu.com',
                         'mgame.sohu.com',
@@ -53,7 +54,6 @@ class SohuSpider(CrawlSpider):
 
     allow_index = [
                     r'http://music\.yule\.sohu\.com/.*', 
-                    r'http://db\.auto\.sohu\.com/.*', 
                     r'http://digi\.it\.sohu\.com/.*', 
                     r'http://[a-z]*\.sports\.sohu\.com/.*', 
                     r'http://star\.news\.sohu\.com/.*', 
@@ -62,7 +62,6 @@ class SohuSpider(CrawlSpider):
 
     allow_shtml = [
                     r'http://music\.yule\.sohu\.com/[\d]*/.*\.s?html$', 
-                    r'http://db\.auto\.sohu\.com/[\d]*/.*\.s?html$', 
                     r'http://digi\.it\.sohu\.com/[\d]*/.*\.s?html$', 
                     r'http://star\.news\.sohu\.com/[\d]*/.*\.s?html$', 
                     r'http://[a-z]*\.sohu\.com/[\d]*/.*\.s?html$'
@@ -87,7 +86,7 @@ class SohuSpider(CrawlSpider):
                      process_links=linkfilter.index_filter)
             ]
 
-    def parse_item(self, response):
+    def parse_shtml(self, response):
         loader = TextLoader(item=TextItem(), response=response)
 
         path = self.pathextractor.host(settings.SOHU_STORE, response.url)
@@ -99,6 +98,16 @@ class SohuSpider(CrawlSpider):
             ts = p.xpath('.//text()').extract()
             text = ''.join(ts)
             loader.add_value('text', text)
+
+        # very old pages
+        if not ps:
+            ps = response.xpath('//div[contains(@id, "sohu_content")]/p/text()')
+            if not ps:
+                loader.add_xpath('title', '//TD[contains(@class, "c_title_bold")]/text()')
+                ps = response.xpath('//p/text()')
+            for p in ps:
+                text = p.extract()
+                loader.add_value('text', text)
 
         return loader.load_item()
 

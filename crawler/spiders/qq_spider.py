@@ -73,13 +73,13 @@ class QQSpider(CrawlSpider):
 
     
     rules = [
-                Rule(LinkExtractor(allow=allow_a),
+                Rule(LinkExtractor(allow=allow_a, deny=deny_pages),
                      callback='parse_a', follow=True, 
                      process_links=linkfilter.html_filter),
-                Rule(LinkExtractor(allow=allow_original),
+                Rule(LinkExtractor(allow=allow_original, deny=deny_pages),
                      callback='parse_original', follow=True, 
                      process_links=linkfilter.html_filter),
-                Rule(LinkExtractor(allow=allow_index, deny=allow_a+allow_original),
+                Rule(LinkExtractor(allow=allow_index, deny=allow_a+allow_original+deny_pages),
                     process_links=linkfilter.index_filter)
             ]
 
