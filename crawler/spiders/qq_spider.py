@@ -37,16 +37,26 @@ class QQSpider(CrawlSpider):
                         'sports.qq.com',
                         'stock.qq.com',
                         'finance.qq.com',
-                        'news.qq.com'
+                        'history,qq.com',
+                        'news.qq.com',
+                        'www.qq.com'
                       ]
 
     deny_pages = [
+                    r'http://bss\.auto\.qq\.com/.*',
+                    r'http://club\.auto\.qq\.com/.*',
+                    r'http://comment\.auto\.qq\.com/.*',
+                    r'http://data\.auto\.qq\.com/.*',
+                    r'http://uc\.auto\.qq\.com/.*',
+                    r'http://bss\.house\.qq\.com/.*',
+                    r'http://db\.house\.qq\.com/.*'
                  ]
 
     allow_index = [
                     r'http://view\.news\.qq.com/.*',
                     r'http://[a-z]*\.auto\.qq\.com/.*',
                     r'http://[a-z]*\.house\.qq\.com/.*',
+                    r'http://roll\.[a-z]*\.qq.com/.*',
                     r'http://[a-z]*\.qq.com/.*'
                   ]
 
@@ -99,11 +109,11 @@ class QQSpider(CrawlSpider):
         path = self.pathextractor.host(settings.QQ_STORE, response.url)
         loader.add_value('path', path)
         loader.add_xpath('title', '//h1/text()')
-        loader.add_xpath('//div[contains(@class, "daoyu")]//div[contains(@class, "intr")]/text()')
-        loader.add_xpath('//div[contains(@id, "articleContent")]/h2/text()')
-        loader.add_xpath('//div[contains(@id, "articleContent")]/h3/text()')
-        loader.add_xpath('//div[contains(@id, "articleContent")]/p/text()')
-        loader.add_xpath('//div[contains(@class, "jieyu")]//text()')
+        loader.add_xpath('text', '//div[contains(@class, "daoyu")]//div[contains(@class, "intr")]/text()')
+        loader.add_xpath('text', '//div[contains(@id, "articleContent")]/h2/text()')
+        loader.add_xpath('text', '//div[contains(@id, "articleContent")]/h3/text()')
+        loader.add_xpath('text', '//div[contains(@id, "articleContent")]/p/text()')
+        loader.add_xpath('text', '//div[contains(@class, "jieyu")]//text()')
 
         return loader.load_item()
 

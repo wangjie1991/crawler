@@ -35,7 +35,7 @@ class TextLoader(ItemLoader):
     title_out = TakeFirst()
 
     text_in = MapCompose(strip_text)
-    text_out = Join('')
+    text_out = Join('\n')
 
 
 class WeiboItem(scrapy.Item):
