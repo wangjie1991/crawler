@@ -15,12 +15,12 @@ class LinkFilter():
         if os.path.exists(self.tmp_index):
             self.bf_index = BloomFilter.open(self.tmp_index)
         else:
-            self.bf_index = BloomFilter(10000000, 0.001, self.tmp_index)
+            self.bf_index = BloomFilter(100000000, 0.001, self.tmp_index)
 
         if os.path.exists(self.tmp_html):
             self.bf_html = BloomFilter.open(self.tmp_html)
         else:
-            self.bf_html = BloomFilter(10000000, 0.001, self.tmp_html)
+            self.bf_html = BloomFilter(100000000, 0.001, self.tmp_html)
     
     def index_filter(self, links):
         new_links = []

@@ -17,6 +17,19 @@ class SohuSpider(CrawlSpider):
     linkfilter = LinkFilter('sohu')
     
     allowed_domains = [
+                        'city.sohu.com',
+                        'caipiao.sohu.com',
+                        'mgame.sohu.com',
+                        'yule.sohu.com',
+                        'gongyi.sohu.com',
+                        'chihe.sohu.com',
+                        'baobao.sohu.com',
+                        'learning.sohu.com',
+                        'travel.sohu.com',
+                        'health.sohu.com',
+                        'fashion.sohu.com',
+                        'auto.sohu.com',
+                        'chuangke.sohu.com',
                         'it.sohu.com',
                         'fund.sohu.com',
                         'stock.sohu.com',
@@ -27,68 +40,51 @@ class SohuSpider(CrawlSpider):
                         'history.sohu.com',
                         'cul.sohu.com',
                         'mil.sohu.com',
-                        'news.sohu.com'
-
-                        'chuangke.sohu.com',
-                        'auto.sohu.com',
-                        '2sc.sohu.com',
-                        'fashion.sohu.com',
-                        'health.sohu.com',
-                        'travel.sohu.com',
-                        'learning.sohu.com',
-                        'learning.sohu.com/liuxue',
-                        'learning.sohu.com/gaokao.shtml',
-                        'baobao.sohu.com',
-                        'chihe.sohu.com',
-                        'astro.sohu.com',
-                        'gongyi.sohu.com',
-                        'yule.sohu.com',
-                        'music.sohu.com',
-                        'app.sohu.com',
-                        'www.focus.cn',
-                        'esf.focus.cn/search',
-                        'home.focus.cn',
-                        'caipiao.sohu.com',
-                        'city.sohu.com',
+                        'news.sohu.com',
+                        'www.sohu.com'
                       ]
-    newsmaker_list
-    deny_shtml = [news.sohu.com/matrix,
-                    http://pic.xxxx
-                  ]
+
+    deny_pages = [
+                    r'http://auto\.sohu\.com/.*video.*', 
+                    r'http://news\.sohu\.com/.*shuzi-.*', 
+                    r'http://news\.sohu\.com/matrix/', 
+                    r'http://pic.*'
+                 ]
 
     allow_index = [
-                    r'http://[a-z]*\.sports\.sohu\.com/.*/$', 
-                    r'http://[a-z]*\.sohu\.com/.*/$', 
+                    r'http://music\.yule\.sohu\.com/.*', 
+                    r'http://db\.auto\.sohu\.com/.*', 
+                    r'http://digi\.it\.sohu\.com/.*', 
+                    r'http://[a-z]*\.sports\.sohu\.com/.*', 
+                    r'http://star\.news\.sohu\.com/.*', 
+                    r'http://[a-z]*\.sohu\.com/.*' 
                   ]
 
-                        'star.news.sohu.com',
-                        'digi.it.sohu.com',
-                        'digi.it.sohu.com/mobile.shtml',
     allow_shtml = [
+                    r'http://music\.yule\.sohu\.com/[\d]*/.*\.s?html$', 
+                    r'http://db\.auto\.sohu\.com/[\d]*/.*\.s?html$', 
+                    r'http://digi\.it\.sohu\.com/[\d]*/.*\.s?html$', 
                     r'http://star\.news\.sohu\.com/[\d]*/.*\.s?html$', 
                     r'http://[a-z]*\.sohu\.com/[\d]*/.*\.s?html$'
                   ]
 
     allow_comnt = [
-                    cul/history/book/
-                    book.sohu.com/s2014/chenhuan/
-                    r'http://[a-z]\.sohu\.com/s[\d]*/.*\.s?html$',
-                    <div id="contentA">//<p>
-                    <div class="area xxx clearfix">//<p>
-                    r'http://star\.news\.sohu\.com/s[\d]*/.*\.s?html$', 
-                    <div id="content">//<p>
+                    r'http://book\.sohu\.com/s[\d]*/.*',
+                    r'http://cul\.sohu\.com/s[\d]*/.*',
+                    r'http://star\.news\.sohu\.com/s[\d]*/.*/$', 
+                    r'http://news\.sohu\.com/.*newsmaker.*\.s?html$', 
+                    r'http://news\.sohu\.com/.*dianji.*\.s?html$'
                   ]
  
-
     rules = [
-                Rule(LinkExtractor(allow=allow_shtml),
-                     callback='parse_item', follow=True, 
+                Rule(LinkExtractor(allow=allow_shtml, deny=deny_pages),
+                     callback='parse_shtml', follow=True, 
                      process_links=linkfilter.html_filter),
-                Rule(LinkExtractor(allow=allow_original),
-                     callback='parse_original', follow=True, 
+                Rule(LinkExtractor(allow=allow_comnt, deny=deny_pages),
+                     callback='parse_comnt', follow=True, 
                      process_links=linkfilter.html_filter),
-                Rule(LinkExtractor(allow=allow_index, deny=allow_a+allow_original),
-                    process_links=linkfilter.index_filter)
+                Rule(LinkExtractor(allow=allow_index, deny=allow_shtml+allow_comnt+deny_pages),
+                     process_links=linkfilter.index_filter)
             ]
 
     def parse_item(self, response):
@@ -99,6 +95,23 @@ class SohuSpider(CrawlSpider):
         loader.add_xpath('title', '//h1/text()')
 
         ps = response.xpath('//div[contains(@id, "contentText")]//p')
+        for p in ps:
+            ts = p.xpath('.//text()').extract()
+            text = ''.join(ts)
+            loader.add_value('text', text)
+
+        return loader.load_item()
+
+    def parse_comnt(self, response):
+        loader = TextLoader(item=TextItem(), response=response)
+
+        path = self.pathextractor.host(settings.SOHU_STORE, response.url)
+        loader.add_value('path', path)
+        loader.add_xpath('title', '//h1/text()')
+        loader.add_xpath('title', '//h2/text()')
+        loader.add_xpath('title', '//h3/text()')
+
+        ps = response.xpath('//p')
         for p in ps:
             ts = p.xpath('.//text()').extract()
             text = ''.join(ts)
