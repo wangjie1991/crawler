@@ -15,7 +15,6 @@ class QQSpider(CrawlSpider):
     start_urls = ['http://www.qq.com/']
     pathextractor = PathExtractor()
     linkfilter = LinkFilter('qq')
-    sep = ''
 
     allowed_domains = [
                         'mil.qq.com',
@@ -96,10 +95,11 @@ class QQSpider(CrawlSpider):
 
         # very old pages
         if not ps:
-            loader.add_xpath('title', '//div[contains(id, "ArticleTit")]/text()')
             loader.add_xpath('title', '//div[contains(id, "ArtTit")]/text()')
-            ps = response.xpath('//div[contains(@id, "ArticleCnt")]//p')
             ps = response.xpath('//div[contains(@id, "ArtCnt")]//p')
+        if not ps:
+            loader.add_xpath('title', '//div[contains(id, "ArticleTit")]/text()')
+            ps = response.xpath('//div[contains(@id, "ArticleCnt")]//p')
         if not ps:
             ps = response.xpath('//p')
 
@@ -107,7 +107,7 @@ class QQSpider(CrawlSpider):
             if p.xpath('./script'):
                 continue
             ts = p.xpath('.//text()').extract()
-            text = self.sep.join(ts)
+            text = ''.join(ts)
             loader.add_value('text', text)
 
         return loader.load_item()
