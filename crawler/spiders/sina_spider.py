@@ -10,8 +10,9 @@ from crawler.items import TextItem, TextLoader
 
 class SinaSpider(CrawlSpider):
     name = 'sina'
-    linkfilter = LinkFilter('sina')
     start_urls = ['http://sina.com.cn']
+    pathextractor = PathExtractor()
+    linkfilter = LinkFilter('sina')
 
     allowed_domains = [
                         'gongyi.sina.com.cn',
@@ -82,19 +83,18 @@ class SinaSpider(CrawlSpider):
     def parse_item(self, response):
         loader = TextLoader(item=TextItem(), response=response)
 
-#        path = PathExtractor.parse_sina(response.url)
-        loader.add_value('path', '')
-
+        path = self.pathextractor.host(settings.SINA_STORE, response.url)
+        loader.add_value('path', path)
         loader.add_xpath('text', '//h1/text()')
         
-        t1 = response.xpath('//div[contains(@id, "artibody")]//p//text()')
-        if t1:
-            # <p>中会有<strong>修饰文本，也为了最大匹配artibody，保证<p>匹配成功
-            loader.add_xpath('text', '//div[contains(@id, "artibody")]//p//text()')
-        elif t2:
-            # <div id=article>内一些<p>会在里层，而且这里匹配失败会全匹配<p>，容易引入js杂料，所以这里需要匹配最大化
-            # 早期网页中一般没有将重要文本放入<p>里层，里层反而有js等。
-            loader.add_xpath('text', '//div[contains(@id, "article")]//p/text()')
+        ps = response.xpath('//div[contains(@id, "artibody")]//p')
+        if not ps:
+            ps = response.xpath('//div[contains(@id, "article")]//p')
+
+        for p in ps:
+            ts = p.xpath('.//text()').extract()
+            text = ''.join(ts)
+            loader.add_value('text', text)
         
         return loader.load_item()
 
