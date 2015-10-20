@@ -16,7 +16,6 @@ class Wy163Spider(CrawlSpider):
     linkfilter = LinkFilter('wy163')
 
     allowed_domains = [
-                        #'discovery.163.com', 
                         'gongyi.163.com', 
                         'baby.163.com', 
                         'edu.163.com', 
@@ -92,13 +91,13 @@ class Wy163Spider(CrawlSpider):
         loader = TextLoader(item = TextItem(), response = response)
         path = self.pathextractor.host(settings.WY163_STORE, response.url)
         loader.add_value('path', path)
-        loader.add_xpath('title', '//h1//text()')
-        loader.add_xpath('text', '//h2//text()')
-        loader.add_xpath('text', '//h3//text()')
+        loader.add_xpath('title', '//h1/text()')
+        loader.add_xpath('text', '//h2/text()')
+        loader.add_xpath('text', '//h3/text()')
         
         ps = response.xpath('//p')
         for p in ps:
-            ts = p.xpath('//text()').extract()
+            ts = p.xpath('./text()').extract()
             text = ''.join(ts)
             loader.add_value('text', text)
 

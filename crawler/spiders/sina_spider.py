@@ -35,7 +35,8 @@ class SinaSpider(CrawlSpider):
                         'chuangye.sina.com.cn',
                         'tech.sina.com.cn', 
                         'finance.sina.com.cn', 
-                        'news.sina.com.cn' 
+                        'news.sina.com.cn', 
+                        'www.sina.com.cn' 
                       ]
 
     deny_pages = [
