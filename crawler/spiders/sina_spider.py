@@ -6,6 +6,7 @@ from scrapy.contrib.linkextractors import LinkExtractor
 from crawler.spiders.pathextractor import PathExtractor
 from crawler.spiders.linkfilter import LinkFilter
 from crawler.items import TextItem, TextLoader
+from crawler import settings
 
 
 class SinaSpider(CrawlSpider):
