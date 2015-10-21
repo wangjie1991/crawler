@@ -26,7 +26,7 @@ class TextPipeline(object):
         return item
 
 
-class WeiboPipeline(object):
+class NotePipeline(object):
     
     def process_item(self, item, spider):
         b_path = 'path' in item and item['path'] != ''
@@ -41,6 +41,9 @@ class WeiboPipeline(object):
                 os.makedirs(d)
             
             with open(path, 'a') as fout:
+                if 'title' in item and item['title'] != '':
+                    s = item['title'] + '\n'
+                    fout.write(s.encode('utf-8'))
                 fout.write(text.encode('utf-8'))
 
 
