@@ -1,24 +1,32 @@
 # -*- coding: utf-8 -*-
 
+import re
 import scrapy
 from scrapy.contrib.loader import ItemLoader
 from scrapy.contrib.loader.processor import TakeFirst, MapCompose, Join
 
+pat_stp1 = re.compile(r'\s*')
+pat_stp2 = re.compile(r'http://[\w\./#%&\?]*?')
+
 def strip_text(s):
     t = s.strip()
-    t = t.replace(' ', '')
+    t = pat_stp1.sub('', t)
+    t = pat_stp2.sub('', t)
     # last char is } or ; maybe javascript code
     if (1 <= len(t)):
         if ('}' == t[-1]) or \
            ('{' == t[-1]) or \
            (';' == t[-1]):
-            return ''
+            return None
 
     if (2 <= len(t)):
         if ('//' == t[0:2]):
-            return ''
+            return None 
 
-    return t
+    if ('' == t):
+        return None
+    else:
+        return t
 
 
 class TextItem(scrapy.Item):
