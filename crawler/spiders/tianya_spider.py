@@ -16,14 +16,14 @@ class TianyaSpider(CrawlSpider):
     linkfilter = LinkFilter('tianya')
 
     allowed_domains = ['bbs.tianya.cn']
-    allow_index = [r'http://bbs\.tianya\.cn/.*']
+    allow_index = [r'http://bbs\.tianya\.cn/list.*']
     allow_shtml = [r'http://bbs\.tianya\.cn/post-.*']
 
     rules = [
                 Rule(LinkExtractor(allow=allow_shtml), 
                      callback='parse_item', follow=True, 
                      process_links=linkfilter.html_filter), 
-                Rule(LinkExtractor(allow=allow_index, deny=allow_shtml), 
+                Rule(LinkExtractor(allow=allow_index), 
                      process_links=linkfilter.index_filter)
             ]
 

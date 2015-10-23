@@ -12,6 +12,7 @@ def strip_text(s):
     t = s.strip()
     t = pat_stp1.sub('', t)
     t = pat_stp2.sub('', t)
+    #t = t.replace('@', '')
     # last char is } or ; maybe javascript code
     if (1 <= len(t)):
         if ('}' == t[-1]) or \
