@@ -45,7 +45,8 @@ class TiebaSpider(CrawlSpider):
         loader.add_value('title', '')
 
         # main content
-        loader.add_xpath('text', '//div[re:test(@class, "d_post_content j_d_post_content[\s\S]*")]/text()')
+        #loader.add_xpath('text', '//div[re:test(@class, "d_post_content j_d_post_content[\s\S]*")]/text()')
+        loader.add_xpath('text', '//div[contains(@class, "d_post_content j_d_post_content")]/text()')
         # comment content
         comnt_list = self.pat_fnd.findall(response.body.decode('utf-8'))
         for comnt in comnt_list:

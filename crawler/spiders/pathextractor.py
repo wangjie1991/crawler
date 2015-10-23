@@ -17,9 +17,19 @@ class PathExtractor():
         return path
 
     def weibo(self, store, url):
-        path = url.lstrip('http://weibo.cn/')
-        path = path[:path.rfind('?')]
-        path = '%s/%s.txt' % (store, path)
+        url = url.lstrip('http://weibo.cn/')
+        index = url.find('?page=')
+
+        user = '_'
+        page = '_'
+        if (-1 == index):
+            user = url
+            page = '1'
+        else:
+            user = url[:index]
+            page = url[index+6:]
+
+        path = '%s/%s/%s.txt' % (store, user, page)
         return path
 
     def baidumusic(self, url):

@@ -6,7 +6,7 @@ from scrapy.contrib.loader import ItemLoader
 from scrapy.contrib.loader.processor import TakeFirst, MapCompose, Join
 
 pat_stp1 = re.compile(r'\s*')
-pat_stp2 = re.compile(r'http://[\w\./#%&\?]*?')
+pat_stp2 = re.compile(r'http:[\w\./#%&\?]*?')
 
 def strip_text(s):
     t = s.strip()
