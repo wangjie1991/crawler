@@ -10,11 +10,13 @@ class PathExtractor():
     tieba_first_class = re.compile(r'first_class:\s*?"(.*?)"')
     tieba_second_class = re.compile(r'second_class:\s*?"(.*?)"')
 
+
     def host(self, store, url):
         path = url.lstrip('http://')
         path = path[:path.rfind('.')]
         path = '%s/%s.txt' % (store, path)
         return path
+
 
     def weibo(self, store, url):
         url = url.lstrip('http://weibo.cn/')
@@ -32,29 +34,6 @@ class PathExtractor():
         path = '%s/%s/%s.txt' % (store, user, page)
         return path
 
-    def baidumusic(self, url):
-        # http://music.baidu.com/tag/%E7%94%B5%E8%A7%86%E5%89%A7?start=200&size=25&third_type=0
-        url = urllib.unquote(url)
-        url = url.lstrip('http://music.baidu.com/tag/')
-        url = url.strip('\t')
-        
-        p = ''
-        f = ''
-        idx = url.find('?')
-        
-        if (-1 == idx):
-            p = url
-            f = '0'
-        else:
-            p = url[:idx]
-            fl = re.findall('start=([0-9]*)', url)
-            if fl:
-                f = fl[0]
-            else:
-                f = 'x'
-        
-        path = '%s/%s/%s.txt' % (settings.BDYY_STORE, p, f)
-        return path
 
     def tieba(self, store, response):
         # 娱乐明星/港台东南亚明星/周杰伦/3915073118/1.txt'
@@ -85,7 +64,49 @@ class PathExtractor():
             page_id = url[:index]
             page_num = url[index+4:]
 
-        path = '%s/%s/%s/%s/%s/%s' % (store, first, second, fname, page_id, page_num)
+        path = '%s/%s/%s/%s/%s/%s.txt' % (store, first, second, fname, page_id, page_num)
+        return path
+
+
+    def tianya(self, store, response):
+        ts = response.xpath('//p[@class="crumbs"]/em/a/text()').extract()
+        if not ts:
+            return self.host(store, response.url)
+
+        path = store
+        for i in range(len(ts)):
+            path = '%s/%s' % (path, ts[i])
+
+        url = response.url
+        url = url[:url.rfind('.')]
+        urls = url.split('-')
+
+        path = '%s/%s/%s.txt' % (path, urls[-2], urls[-1])
+        return path
+
+
+    def baidumusic(self, url):
+        # http://music.baidu.com/tag/%E7%94%B5%E8%A7%86%E5%89%A7?start=200&size=25&third_type=0
+        url = urllib.unquote(url)
+        url = url.lstrip('http://music.baidu.com/tag/')
+        url = url.strip('\t')
+        
+        p = ''
+        f = ''
+        idx = url.find('?')
+        
+        if (-1 == idx):
+            p = url
+            f = '0'
+        else:
+            p = url[:idx]
+            fl = re.findall('start=([0-9]*)', url)
+            if fl:
+                f = fl[0]
+            else:
+                f = 'x'
+        
+        path = '%s/%s/%s.txt' % (settings.BDYY_STORE, p, f)
         return path
 
 
