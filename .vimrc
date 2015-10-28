@@ -38,9 +38,9 @@ set autoread
 "set modifiable
 "set nopaste
 "set nosecure
-set mouse=a
+"set mouse=a
 "set mousehide
-set mousemodel=extend
+"set mousemodel=extend
 
 "set background=dark
 "set cursorcolumn
