@@ -1,10 +1,20 @@
-spider=wy163
+
+path=`pwd`
 dt=`date +%y%m%d`
+spider=${path##*/}
+index=/tmp/$spider"_index.bf"
+#echo $path
+#echo $dt
+#echo $spider
+#echo $index
 
-rm /tmp/$spider"_index.bf"
+if [ -f $index ]
+then
+    rm $index
+    #echo "rm index"
+fi
+
 scrapy crawl $spider 2>log
-
-mv ~/Documents/corpus/$spider ~/Music/raw/$spider/$dt
-cp log ~/Music/raw/$spider/$dt/
+cp log ~/Documents/backup/log/$spider/$dt
 
 
