@@ -42,6 +42,10 @@ class SinaSpider(CrawlSpider):
                       ]
 
     deny_pages = [
+                    r'http://sports\.sina\.com\.cn/focus//.*', 
+                    r'http://news\.jiaju\.sina\.com\.cn/search.*', 
+                    r'http://tech\.sina\.com\.cn//.*', 
+                    r'http://sports\.sina\.com\.cn//.*', 
                     r'http://book.sina.com.cn/z/.*', 
                     r'http://fashion\.sina\.com\.cn/match/.*', 
                     r'http://fashion\.sina\.com\.cn/home/.*', 
