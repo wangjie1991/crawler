@@ -103,5 +103,6 @@ SNWB_STORE = '/home/jay/Documents/corpus/snwb'
 BDYY_STORE = '/home/jay/Documents/corpus/baidu_music'
 SBKK8_STORE = '/home/jay/Documents/corpus/sbkk8'
 TY2016_STORE = '/home/jay/Documents/corpus/ty2016'
+HAO1111_STORE = '/home/jay/Documents/corpus/hao1111'
 XXC_STORE = '/home/jay/Documents/corpus/xxc'
 
