@@ -16,8 +16,8 @@ class TiebaSpider(CrawlSpider):
     #start_urls = ['http://tieba.baidu.com/f?kw=%BF%EC%C0%D6%B4%F3%B1%BE%D3%AA']
     pathextractor = PathExtractor()
     linkfilter = LinkFilter('tieba')
-    pat_fnd = re.compile(r'"content":"(.*?)",')
-    pat_sub = re.compile(r'<.*>')
+    pat_fnd = re.compile(r'"content":"(\u.*?)",')
+    pat_sub = re.compile(r'<.*?>')
 
     allowed_domains = ['tieba.baidu.com']
 

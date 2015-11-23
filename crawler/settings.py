@@ -62,8 +62,8 @@ NEWSPIDER_MODULE = 'crawler.spiders'
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'crawler.pipelines.TextPipeline': 300,
-#    'crawler.pipelines.NotePipeline': 300,
+    'crawler.pipelines.TextPipeline': 300
+#    'crawler.pipelines.NotePipeline': 300
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

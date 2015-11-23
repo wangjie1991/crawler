@@ -59,49 +59,47 @@ class QQSpider(CrawlSpider):
                     r'http://[a-z]*\.qq.com/.*'
                   ]
 
-    allow_a = [
-                r'http://[a-z]*\.auto\.qq\.com/a/.*\.s?html?$',
-                r'http://[a-z]*\.house\.qq\.com/a/.*\.s?html?$',
-                r'http://[a-z]*\.qq\.com/a/.*\.s?html?$'
-              ]
+    allow_shtml = [
+                    r'http://[a-z]*\.auto\.qq\.com/a/.*\.s?html?$',
+                    r'http://[a-z]*\.house\.qq\.com/a/.*\.s?html?$',
+                    r'http://[a-z]*\.qq\.com/a/.*\.s?html?$'
+                  ]
 
     allow_original = [
                         r'http://view\.news\.qq\.com/original/.*\.s?html?$',
                         r'http://[a-z]*\.qq\.com/original/.*\.s?html?$'
                      ]
 
-    
+
     rules = [
-                Rule(LinkExtractor(allow=allow_a, deny=deny_pages),
-                     callback='parse_a', follow=True, 
+                Rule(LinkExtractor(allow=allow_shtml, deny=deny_pages),
+                     callback='parse_shtml', follow=True, 
                      process_links=linkfilter.html_filter),
                 Rule(LinkExtractor(allow=allow_original, deny=deny_pages),
                      callback='parse_original', follow=True, 
                      process_links=linkfilter.html_filter),
-                Rule(LinkExtractor(allow=allow_index, deny=allow_a+allow_original+deny_pages),
+                Rule(LinkExtractor(allow=allow_index, deny=allow_shtml+allow_original+deny_pages),
                     process_links=linkfilter.index_filter)
             ]
 
-    def parse_a(self, response):
+    def parse_shtml(self, response):
         loader = TextLoader(item=TextItem(), response=response)
 
         path = self.pathextractor.host(settings.QQ_STORE, response.url)
         loader.add_value('path', path)
+
         loader.add_xpath('title', '//h1/text()')
+        ps = response.xpath('//div[@id="Cnt-Main-Article-QQ"]/p[@style="TEXT-INDENT: 2em"]')
+        if not ps:
+            ps = response.xpath('//div[@id="Cnt-Main-Article-QQ"]/p')
 
-        ps = response.xpath('//div[contains(@id, "Cnt-Main-Article-QQ")]/p[contains(@style, "TEXT-INDENT: 2em")]')
+        # old pages
         if not ps:
-            ps = response.xpath('//div[contains(@id, "Cnt-Main-Article-QQ")]/p')
-
-        # very old pages
+            loader.replace_xpath('title', '//div[@id="ArtTit"]/text()')
+            ps = response.xpath('//div[@id="ArtCnt"]//p')
         if not ps:
-            loader.add_xpath('title', '//div[contains(id, "ArtTit")]/text()')
-            ps = response.xpath('//div[contains(@id, "ArtCnt")]//p')
-        if not ps:
-            loader.add_xpath('title', '//div[contains(id, "ArticleTit")]/text()')
-            ps = response.xpath('//div[contains(@id, "ArticleCnt")]//p')
-        if not ps:
-            ps = response.xpath('//p')
+            loader.replace_xpath('title', '//div[@id="ArticleTit"]/text()')
+            ps = response.xpath('//div[@id="ArticleCnt"]//p')
 
         for p in ps:
             if p.xpath('./script'):
@@ -118,11 +116,11 @@ class QQSpider(CrawlSpider):
         path = self.pathextractor.host(settings.QQ_STORE, response.url)
         loader.add_value('path', path)
         loader.add_xpath('title', '//h1/text()')
-        loader.add_xpath('text', '//div[contains(@class, "daoyu")]//div[contains(@class, "intr")]/text()')
-        loader.add_xpath('text', '//div[contains(@id, "articleContent")]/h2/text()')
-        loader.add_xpath('text', '//div[contains(@id, "articleContent")]/h3/text()')
-        loader.add_xpath('text', '//div[contains(@id, "articleContent")]/p/text()')
-        loader.add_xpath('text', '//div[contains(@class, "jieyu")]//text()')
+        loader.add_xpath('text', '//div[@class="daoyu"]//div[@class="intr"]/text()')
+        loader.add_xpath('text', '//div[@id="articleContent"]/h2/text()')
+        loader.add_xpath('text', '//div[@id="articleContent"]/h3/text()')
+        loader.add_xpath('text', '//div[@id="articleContent"]/p/text()')
+        loader.add_xpath('text', '//div[@class="jieyu"]//text()')
 
         return loader.load_item()
 

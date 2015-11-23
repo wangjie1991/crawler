@@ -71,14 +71,13 @@ class Wy163Spider(CrawlSpider):
         path = self.pathextractor.host(settings.WY163_STORE, response.url)
         loader.add_value('path', path)
         loader.add_xpath('title', '//h1/text()')
-        loader.add_xpath('text', '//p[contains(@class, "ep-summary")]/text()')
 
-        ps = response.xpath('//div[contains(@id, "endText")]/p')
+        ps = response.xpath('//div[@id="endText"]/p')
         # old pages:http://news.163.com/05/0130/10/1BBB83S30001121Q.html
         if not ps:
-            ps = response.xpath('//div[contains(@id, "text")]/p')
+            ps = response.xpath('//div[@id="text"]/p')
         if not ps:
-            ps = response.xpath('//div[contains(@id, "content")]/p')
+            ps = response.xpath('//div[@id="content"]/p')
 
         for p in ps:
             ts = p.xpath('.//text()').extract()
@@ -108,7 +107,7 @@ class Wy163Spider(CrawlSpider):
         path = self.pathextractor.host(settings.WY163_STORE, response.url)
         loader.add_value('path', path)
         loader.add_xpath('title', '//h3/text()')
-        loader.add_xpath('text', '//div[contains(@class, "feed-text")]/p/text()')
+        loader.add_xpath('text', '//div[@class="feed-text"]/p/text()')
         return loader.load_item()
 
 

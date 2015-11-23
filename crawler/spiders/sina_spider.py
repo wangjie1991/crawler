@@ -78,13 +78,13 @@ class SinaSpider(CrawlSpider):
                  ]
     
     rules = [
-                Rule(LinkExtractor(allow=allow_index, deny=deny_pages), 
-                     process_links=linkfilter.index_filter),
                 Rule(LinkExtractor(allow=allow_shtml, deny=deny_pages), 
                      callback='parse_item', follow=True, 
-                     process_links=linkfilter.html_filter)
+                     process_links=linkfilter.html_filter),
+                Rule(LinkExtractor(allow=allow_index, deny=deny_pages), 
+                     process_links=linkfilter.index_filter)
             ]
-    
+
     def parse_item(self, response):
         loader = TextLoader(item=TextItem(), response=response)
 
@@ -92,9 +92,9 @@ class SinaSpider(CrawlSpider):
         loader.add_value('path', path)
         loader.add_xpath('text', '//h1/text()')
         
-        ps = response.xpath('//div[contains(@id, "artibody")]//p')
+        ps = response.xpath('//div[@id="artibody"]//p')
         if not ps:
-            ps = response.xpath('//div[contains(@id, "article")]//p')
+            ps = response.xpath('//div[@id="article"]//p')
 
         for p in ps:
             ts = p.xpath('.//text()').extract()

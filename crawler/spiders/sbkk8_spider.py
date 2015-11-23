@@ -18,11 +18,11 @@ class Sbkk8Spider(CrawlSpider):
     pathextractor = PathExtractor()
 
     rules = [
-                Rule(LinkExtractor(allow=r'http://www\.sbkk8\.cn/.*/$'), 
-                     process_links=linkfilter.index_filter),
                 Rule(LinkExtractor(allow=r'http://www\.sbkk8\.cn/.*\.s?html?$'), 
                      callback='parse_item', follow=True, 
-                     process_links=linkfilter.html_filter)
+                     process_links=linkfilter.html_filter),
+                Rule(LinkExtractor(allow=r'http://www\.sbkk8\.cn/.*/$'), 
+                     process_links=linkfilter.index_filter)
             ]
     
     def parse_item(self, response):
@@ -30,22 +30,28 @@ class Sbkk8Spider(CrawlSpider):
 
         path = self.pathextractor.host(settings.SBKK8_STORE, response.url)
         loader.add_value('path', path)
-
         loader.add_xpath('title', '//h1/text()')
 
-        loader.add_xpath('text', '//div[contains(@id, "f_article")]//p//text()')
-        loader.add_xpath('text', '//div[contains(@id, "f_article")]/div/text()')
-        loader.add_xpath('text', '//div[contains(@id, "f_article")]/text()')
-        
-        loader.add_xpath('text', '//div[contains(@id, "articleText")]//p//text()')
+        ps = response.xpath('//div[@id="f_article"]//p')
+        if not ps:
+            ps = response.xpath('//div[@id="f_article"]/div')
+        if not ps:
+            ps = response.xpath('//div[@id="f_article"]')
+        if not ps:
+            ps = response.xpath('//div[@id="articleText"]//p')
+
+        for p in ps:
+            ts = p.xpath('.//text()').extract()
+            text = ''.join(ts)
+            loader.add_value('text', text)
 
         item = loader.load_item()
-        
-        if ('text' not in item) or (item['text'] == ''):
-            with open('url.txt', 'a') as url_file:
-                url = response.url + '\n'
-                url_file.write(url.encode('utf-8'))
-        
+
+        # if ('text' not in item) or (item['text'] == ''):
+            # with open('url.txt', 'a') as url_file:
+                # url = response.url + '\n'
+                # url_file.write(url.encode('utf-8'))
+
         return item
 
 

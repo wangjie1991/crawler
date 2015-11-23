@@ -93,18 +93,15 @@ class SohuSpider(CrawlSpider):
         loader.add_value('path', path)
         loader.add_xpath('title', '//h1/text()')
 
-        ps = response.xpath('//div[contains(@id, "contentText")]//p')
+        ps = response.xpath('//div[@id="contentText"]//p')
         for p in ps:
             ts = p.xpath('.//text()').extract()
             text = ''.join(ts)
             loader.add_value('text', text)
 
-        # very old pages
+        # old pages
         if not ps:
-            ps = response.xpath('//div[contains(@id, "sohu_content")]/p/text()')
-            if not ps:
-                loader.add_xpath('title', '//TD[contains(@class, "c_title_bold")]/text()')
-                ps = response.xpath('//p/text()')
+            ps = response.xpath('//div[@id="sohu_content"]/p/text()')
             for p in ps:
                 text = p.extract()
                 loader.add_value('text', text)

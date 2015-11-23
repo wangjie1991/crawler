@@ -5,7 +5,6 @@ path=`pwd`
 dt=`date +%y%m%d`
 spider=${path##*/}
 index=/tmp/$spider"_index.bf"
-#echo $path
 #echo $spider
 
 if [ -f $index ]

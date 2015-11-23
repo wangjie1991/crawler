@@ -33,7 +33,7 @@ class TianyaSpider(CrawlSpider):
         path = self.pathextractor.tianya(settings.TY_STORE, response)
         loader.add_value('path', path)
         loader.add_xpath('title', '//h1//text()')
-        loader.add_xpath('text', '//div[contains(@class, "bbs-content")]/text()')
+        loader.add_xpath('text', '//div[@class="bbs-content"]/text()')
 
         return loader.load_item()
 
