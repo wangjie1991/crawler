@@ -4,7 +4,7 @@ cd /home/jay/Documents/scrapy/wy163/
 path=`pwd`
 dt=`date +%y%m%d`
 spider=${path##*/}
-index=/tmp/$spider"_index.bf"
+index=$spider"_index.bf"
 #echo $spider
 
 if [ -f $index ]
