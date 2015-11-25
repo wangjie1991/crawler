@@ -9,18 +9,18 @@ from pybloomfilter import BloomFilter
 class LinkFilter():
     
     def __init__(self, domain):
-        self.tmp_index = '/tmp/%s_%s' % (domain, 'index.bf')
-        self.tmp_html = '/tmp/%s_%s' % (domain, 'html.bf')
+        self.file_index = '%s_%s' % (domain, 'index.bf')
+        self.file_html = '%s_%s' % (domain, 'html.bf')
 
-        if os.path.exists(self.tmp_index):
-            self.bf_index = BloomFilter.open(self.tmp_index)
+        if os.path.exists(self.file_index):
+            self.bf_index = BloomFilter.open(self.file_index)
         else:
-            self.bf_index = BloomFilter(100000000, 0.001, self.tmp_index)
+            self.bf_index = BloomFilter(100000000, 0.001, self.file_index)
 
-        if os.path.exists(self.tmp_html):
-            self.bf_html = BloomFilter.open(self.tmp_html)
+        if os.path.exists(self.file_html):
+            self.bf_html = BloomFilter.open(self.file_html)
         else:
-            self.bf_html = BloomFilter(100000000, 0.001, self.tmp_html)
+            self.bf_html = BloomFilter(100000000, 0.001, self.file_html)
     
     def index_filter(self, links):
         new_links = []
