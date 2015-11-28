@@ -46,9 +46,14 @@ class SohuSpider(CrawlSpider):
                       ]
 
     deny_pages = [
-                    r'http://auto\.sohu\.com/.*video.*', 
-                    r'http://news\.sohu\.com/.*shuzi-.*', 
-                    r'http://news\.sohu\.com/matrix/', 
+                    r'http://[a-z]*\.sohu\.com/.*?shtml/.*',
+                    r'http://soccer\.sports\.sohu\.com/.*',
+                    r'.*http://tv\.sohu\.com/.*',
+                    r'.*http://v\.sohu\.com/.*',
+                    r'http://it\.sohu\.com/webcourse///.*',
+                    r'http://auto\.sohu\.com/.*video.*',
+                    r'http://news\.sohu\.com/.*shuzi-.*',
+                    r'http://news\.sohu\.com/matrix/',
                     r'http://pic.*'
                  ]
 
