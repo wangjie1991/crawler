@@ -36,7 +36,7 @@ class PathExtractor():
 
 
     def tieba(self, store, response):
-        # 娱乐明星/港台东南亚明星/周杰伦/3915073118/1.txt'
+        # 娱乐明星/港台东南亚明星/周杰伦/3915073118.txt'
         body = response.body.decode('utf-8')
 
         first = '_'
@@ -53,18 +53,18 @@ class PathExtractor():
             fname = fname_list[0].extract()
         
         page_id = '_'
-        page_num = '_'
+        # page_num = '_'
         url = response.url
         url = url[url.rfind('/')+1:]
         index = url.find('?pn=')
         if (-1 == index):
             page_id = url
-            page_num = '1'
+            # page_num = '1'
         else:
             page_id = url[:index]
-            page_num = url[index+4:]
+            # page_num = url[index+4:]
 
-        path = '%s/%s/%s/%s/%s/%s.txt' % (store, first, second, fname, page_id, page_num)
+        path = '%s/%s/%s/%s/%s.txt' % (store, first, second, fname, page_id)#, page_num)
         return path
 
 
