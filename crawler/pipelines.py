@@ -46,4 +46,6 @@ class NotePipeline(object):
                     fout.write(s.encode('utf-8'))
                 fout.write(text.encode('utf-8'))
 
+        return item
+
 
