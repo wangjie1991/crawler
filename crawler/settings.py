@@ -105,5 +105,6 @@ SBKK8_STORE = '/home/jay/Documents/corpus/sbkk8'
 TY2016_STORE = '/home/jay/Documents/corpus/ty2016'
 HAO1111_STORE = '/home/jay/Documents/corpus/hao1111'
 BJCG_STORE = '/home/jay/Documents/corpus/bjcg'
+BK_STORE = '/home/jay/Documents/corpus/baike'
 XXC_STORE = '/home/jay/Documents/corpus/xxc'
 
