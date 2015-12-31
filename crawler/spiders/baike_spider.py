@@ -17,7 +17,6 @@ class BaikeSpider(CrawlSpider):
     linkfilter = LinkFilter('baike')
     allowed_domains = ['baike.baidu.com']
 
-    # deny_pages = []
     allow_index = [r'http://baike\.baidu\.com/.*']
     allow_shtml = [
                     r'http://baike\.baidu\.com/.*htm#viewPageContent$', 
@@ -35,23 +34,21 @@ class BaikeSpider(CrawlSpider):
     def parse_item(self, response):
         loader = TextLoader(item = TextItem(), response = response)
 
-        path = self.pathextractor.host(settings.BK_STORE, response)
+        path = self.pathextractor.host(settings.BK_STORE, response.url)
         loader.add_value('path', path)
-        loader.add_value('title', '//h1/text()')
+        loader.add_xpath('title', '//h1/text()')
 
-        ps = []
-        rs = response.xpath('text', '//div[@class="basic-info cmn-clearfix"]/dt')
-        ps.append(rs)
-        rs = response.xpath('text', '//div[@class="basic-info cmn-clearfix"]/dd')
-        ps.append(rs)
-        for p in ps:
-            ts = p.xpath('.//text()').extract()
-            text = ''.join(ts)
-            loader.add_value('text', text)
+        # ps = response.xpath('//div[@class="basic-info cmn-clearfix"]//dt')
+        # ps = response.xpath('//div[@class="basic-info cmn-clearfix"]//dd')
+        # for p in ps:
+            # ts = p.xpath('.//text()').extract()
+            # text = ''.join(ts)
+            # loader.add_value('text', text)
 
-        loader.add_value('text', '//h2/span[@class="title-text"]/text()')
-        loader.add_value('text', '//h3/span[@class="title-text"]/text()')
-        ps = response.xpath('text', '//div[@class="para"]')
+        loader.add_xpath('text', '//h2/span[@class="title-text"]/text()')
+        loader.add_xpath('text', '//h3/span[@class="title-text"]/text()')
+
+        ps = response.xpath('//div[@class="para"]')
         for p in ps:
             ts = p.xpath('.//text()').extract()
             text = ''.join(ts)
