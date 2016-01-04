@@ -18,16 +18,18 @@ class ZhihuSpider(CrawlSpider):
     allowed_domains = ['www.zhihu.com']
 
     deny_page = [
-                    r'http://www\.zhihu\.com/question/\d+/answer/\d+$',
-                    r'http://www.zhihu.com/people/.*$',
                     r'https://www\.zhihu\.com/question/\d+/answer/\d+$',
-                    r'https://www.zhihu.com/people/.*$'
+                    r'http://www\.zhihu\.com/question/\d+/answer/\d+$',
+                    r'https://www.zhihu.com/people/.*$',
+                    r'http://www.zhihu.com/people/.*$'
                 ]
     allow_index = [ 
                     r'https://www\.zhihu\.com/.*',
                     r'http://www\.zhihu\.com/.*'
                   ]
     allow_shtml = [
+                    r'https://www\.zhihu\.com/question/\d+/answer/\d+$',
+                    r'http://www\.zhihu\.com/question/\d+/answer/\d+$',
                     r'https://www\.zhihu\.com/question/\d+$',
                     r'http://www\.zhihu\.com/question/\d+$'
                   ]
