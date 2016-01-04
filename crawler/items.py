@@ -5,17 +5,19 @@ import scrapy
 from scrapy.contrib.loader import ItemLoader
 from scrapy.contrib.loader.processor import TakeFirst, MapCompose, Join
 
-pat_stp1 = re.compile(r'\s+')
-pat_stp2 = re.compile(r'http:[\w/.#%&?=\-]*')
-pat_stp3 = re.compile(r'[@]')
+pat_stp1 = re.compile(r'[ \t\r\f\v]+')
+pat_stp2 = re.compile(r'\n+')
+pat_stp3 = re.compile(r'http:[\w/.#%&?=\-]*')
+pat_stp4 = re.compile(r'[@]')
 
 def strip_text(s):
     t = s
-    t = t.replace(u'\xa0', u' ')
+    #t = t.replace(u'\xa0', u' ')
     t = t.strip()
     t = pat_stp1.sub('', t)
-    t = pat_stp2.sub('', t)
+    t = pat_stp2.sub('\n', t)
     t = pat_stp3.sub('', t)
+    t = pat_stp4.sub('', t)
 
     # last char is } or ; maybe javascript code
     # if (1 <= len(t)):

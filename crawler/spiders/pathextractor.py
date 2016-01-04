@@ -18,6 +18,12 @@ class PathExtractor():
         return path
 
 
+    def zhihu(self, store, url):
+        path = url[url.find('com')+4:]
+        path = '%s/%s.txt' % (store, path)
+        return path
+
+
     def weibo(self, store, url):
         url = url.lstrip('http://weibo.cn/')
         index = url.find('?page=')
