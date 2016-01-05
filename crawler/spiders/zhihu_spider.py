@@ -23,12 +23,18 @@ class ZhihuSpider(CrawlSpider):
                     r'https://www\.zhihu\.com/people/.*/followers',
                     r'https://www\.zhihu\.com/people/.*/topics',
                     r'https://www\.zhihu\.com/people/.*/logs',
-                    r'http://zhihu\.com?next=%2Fpeople%2F.*%2Fabout',
-                    r'http://zhihu\.com?next=%2Fpeople%2F.*%2Ffollowees',
-                    r'http://zhihu\.com?next=%2Fpeople%2F.*%2Ffollowers',
-                    r'http://zhihu\.com?next=%2Fpeople%2F.*%2Ftopics',
-                    r'http://zhihu\.com?next=%2Fpeople%2F.*%2Flogs',
-                    r'http://zhihu\.com?next=%2Fpeople%2F.*%2Fcolumns%2Ffollowed'
+                    r'http://zhihu\.com?next=.*',
+                    #r'http://zhihu\.com?next=%2Finbox%2F.*',
+                    #r'http://zhihu\.com?next=%2Fpeople%2F.*%2Fasks',
+                    #r'http://zhihu\.com?next=%2Fpeople%2F.*%2Fanswers',
+                    #r'http://zhihu\.com?next=%2Fpeople%2F.*%2Fcollections',
+                    #r'http://zhihu\.com?next=%2Fpeople%2F.*%2Fposts',
+                    #r'http://zhihu\.com?next=%2Fpeople%2F.*%2Fabout',
+                    #r'http://zhihu\.com?next=%2Fpeople%2F.*%2Ffollowees',
+                    #r'http://zhihu\.com?next=%2Fpeople%2F.*%2Ffollowers',
+                    #r'http://zhihu\.com?next=%2Fpeople%2F.*%2Ftopics',
+                    #r'http://zhihu\.com?next=%2Fpeople%2F.*%2Flogs',
+                    #r'http://zhihu\.com?next=%2Fpeople%2F.*%2Fcolumns%2Ffollowed'
                 ]
     allow_index = [ 
                     r'https://www\.zhihu\.com/.*',
