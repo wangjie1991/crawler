@@ -17,6 +17,11 @@ class BaikeSpider(CrawlSpider):
     linkfilter = LinkFilter('baike')
     allowed_domains = ['baike.baidu.com']
 
+    deny_pages = [
+                    r'http://baike\.baidu\.com/history.*',
+                    # r'http://baike\.baidu\.com/historypic/.*',
+                    r'http://baike\.baidu\.com/pic/.*'
+                 ]
     allow_index = [r'http://baike\.baidu\.com/.*']
     allow_shtml = [
                     r'http://baike\.baidu\.com/.*htm#viewPageContent$', 
@@ -24,10 +29,10 @@ class BaikeSpider(CrawlSpider):
                   ]
 
     rules = [
-                Rule(LinkExtractor(allow=allow_shtml), 
+                Rule(LinkExtractor(allow=allow_shtml, deny=deny_pages), 
                      callback='parse_item', follow=True, 
                      process_links=linkfilter.html_filter),
-                Rule(LinkExtractor(allow=allow_index, deny=allow_shtml), 
+                Rule(LinkExtractor(allow=allow_index, deny=allow_shtml+deny_pages), 
                      process_links=linkfilter.index_filter)
             ]
     
