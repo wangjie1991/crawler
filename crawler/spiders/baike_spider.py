@@ -19,6 +19,10 @@ class BaikeSpider(CrawlSpider):
 
     deny_pages = [
                     r'http://baike\.baidu\.com/history.*',
+                    r'http://baike\.baidu\.com/redirect/.*',
+                    r'http://baike\.baidu\.com/divideload/.*',
+                    r'https://passport\.baidu\.com/.*',
+                    # r'http://baike\.baidu\.com/.*\?fromTaglist=',
                     # r'http://baike\.baidu\.com/historypic/.*',
                     r'http://baike\.baidu\.com/pic/.*'
                  ]
